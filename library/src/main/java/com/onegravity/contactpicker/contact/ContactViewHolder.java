@@ -34,13 +34,13 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
 
     private View mRoot;
     private TextView mName;
-    private TextView mDescription;
+    //    private TextView mDescription;
     private ContactBadge mBadge;
     private CheckBox mSelect;
 
     final private ContactPictureType mContactPictureType;
-    final private ContactDescription mContactDescription;
-    final private int mContactDescriptionType;
+    //    final private ContactDescription mContactDescription;
+//    final private int mContactDescriptionType;
     final private ContactPictureManager mContactPictureLoader;
 
     ContactViewHolder(View root, ContactPictureManager contactPictureLoader, ContactPictureType contactPictureType,
@@ -49,13 +49,13 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
 
         mRoot = root;
         mName = (TextView) root.findViewById(R.id.name);
-        mDescription = (TextView) root.findViewById(R.id.description);
+//        mDescription = (TextView) root.findViewById(R.id.description);
         mBadge = (ContactBadge) root.findViewById(R.id.contact_badge);
         mSelect = (CheckBox) root.findViewById(R.id.select);
 
         mContactPictureType = contactPictureType;
-        mContactDescription = contactDescription;
-        mContactDescriptionType = contactDescriptionType;
+//        mContactDescription = contactDescription;
+//        mContactDescriptionType = contactDescriptionType;
         mContactPictureLoader = contactPictureLoader;
 
         mBadge.setBadgeType(mContactPictureType);
@@ -73,20 +73,20 @@ public class ContactViewHolder extends RecyclerView.ViewHolder {
         mName.setText(contact.getDisplayName());
 
         // description
-        String description = "";
-        switch (mContactDescription) {
-            case EMAIL:
-                description = contact.getEmail(mContactDescriptionType);
-                break;
-            case PHONE:
-                description = contact.getPhone(mContactDescriptionType);
-                break;
-            case ADDRESS:
-                description = contact.getAddress(mContactDescriptionType);
-                break;
-        }
-        mDescription.setText(description);
-        mDescription.setVisibility( Helper.isNullOrEmpty(description) ? View.GONE : View.VISIBLE );
+//        String description = "";
+//        switch (mContactDescription) {
+//            case EMAIL:
+//                description = contact.getEmail(mContactDescriptionType);
+//                break;
+//            case PHONE:
+//                description = contact.getPhone(mContactDescriptionType);
+//                break;
+//            case ADDRESS:
+//                description = contact.getAddress(mContactDescriptionType);
+//                break;
+//        }
+//        mDescription.setText(description);
+//        mDescription.setVisibility( Helper.isNullOrEmpty(description) ? View.GONE : View.VISIBLE );
 
         // contact picture
         if (mContactPictureType == ContactPictureType.NONE) {

@@ -80,9 +80,9 @@ public class ContactImpl extends ContactElementImpl implements Contact {
     final private String mLookupKey;
     private String mFirstName = "";
     private String mLastName = "";
-    private Map<Integer, String> mEmail = new HashMap<>();
-    private Map<Integer, String> mPhone = new HashMap<>();
-    private Map<Integer, String> mAddress = new HashMap<>();
+    //    private Map<Integer, String> mEmail = new HashMap<>();
+    private HashSet<String> mPhones = new HashSet<>();
+    //    private Map<Integer, String> mAddress = new HashMap<>();
     private String mPhotoUri;
     private Set<Long> mGroupIds = new HashSet<>();
 
@@ -109,32 +109,28 @@ public class ContactImpl extends ContactElementImpl implements Contact {
         return mLastName;
     }
 
-    @Override
-    public String getEmail(int type) {
-        String email = mEmail.get(type);
-        if (email == null && !mEmail.isEmpty()) {
-            email = mEmail.values().iterator().next();
-        }
-        return email;
-    }
+//    @Override
+//    public String getEmail(int type) {
+//        String email = mEmail.get(type);
+//        if (email == null && !mEmail.isEmpty()) {
+//            email = mEmail.values().iterator().next();
+//        }
+//        return email;
+//    }
 
     @Override
-    public String getPhone(int type) {
-        String phone = mPhone.get(type);
-        if (phone == null && !mPhone.isEmpty()) {
-            phone = mPhone.values().iterator().next();
-        }
-        return phone;
+    public HashSet<String> getPhones() {
+        return mPhones;
     }
 
-    @Override
-    public String getAddress(int type) {
-        String address = mAddress.get(type);
-        if (address == null && !mAddress.isEmpty()) {
-            address = mAddress.values().iterator().next();
-        }
-        return address;
-    }
+//    @Override
+//    public String getAddress(int type) {
+//        String address = mAddress.get(type);
+//        if (address == null && !mAddress.isEmpty()) {
+//            address = mAddress.values().iterator().next();
+//        }
+//        return address;
+//    }
 
     @Override
     public char getContactLetter() {
@@ -166,9 +162,10 @@ public class ContactImpl extends ContactElementImpl implements Contact {
     @Override
     public int getContactColor() {
         if (mContactColor == null) {
-            String key = getDisplayName();
-            int value = Helper.isNullOrEmpty(key) ? hashCode() : key.hashCode();
-            mContactColor = CONTACT_COLORS_MATERIAL[Math.abs(value) % CONTACT_COLORS_MATERIAL.length];
+//            String key = getDisplayName();
+//            int value = Helper.isNullOrEmpty(key) ? hashCode() : key.hashCode();
+//            mContactColor = CONTACT_COLORS_MATERIAL[Math.abs(value) % CONTACT_COLORS_MATERIAL.length];
+            mContactColor = 0xffFF9800;
         }
         return mContactColor;
     }
@@ -203,17 +200,17 @@ public class ContactImpl extends ContactElementImpl implements Contact {
         mLastName = value;
     }
 
-    protected void setEmail(int type, String value) {
-        mEmail.put(type, value);
+//    protected void setEmail(int type, String value) {
+//        mEmail.put(type, value);
+//    }
+
+    protected void addPhone(String value) {
+        mPhones.add(value);
     }
 
-    protected void setPhone(int type, String value) {
-        mPhone.put(type, value);
-    }
-
-    protected void setAddress(int type, String value) {
-        mAddress.put(type, value);
-    }
+//    protected void setAddress(int type, String value) {
+//        mAddress.put(type, value);
+//    }
 
     protected void setPhotoUri(Uri photoUri) {
         mPhotoUri = photoUri != null ? photoUri.toString() : null;
@@ -225,7 +222,7 @@ public class ContactImpl extends ContactElementImpl implements Contact {
 
     @Override
     public String toString() {
-        return super.toString() + ", " + mFirstName + " " + mLastName + ", " + mEmail;
+        return super.toString() + ", " + mFirstName + " " + mLastName;
     }
 
 }

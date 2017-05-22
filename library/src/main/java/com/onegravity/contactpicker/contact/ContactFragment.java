@@ -76,6 +76,7 @@ public class ContactFragment extends BaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
 
         Bundle args = getArguments();
         mSortOrder = ContactSortOrder.lookup( args.getString("sortOrder") );
@@ -114,31 +115,31 @@ public class ContactFragment extends BaseFragment {
         updateEmptyViewVisibility(mContacts);
     }
 
-    @Override
-    protected void checkAll() {
-        if (mFilteredContacts == null) return;
-
-        // determine if all contacts are checked
-        boolean allChecked = true;
-        for (Contact contact : mFilteredContacts) {
-            if (! contact.isChecked()) {
-                allChecked = false;
-                break;
-            }
-        }
-
-        // if all are checked then un-check the contacts, otherwise check them all
-        boolean isChecked = ! allChecked;
-        for (Contact contact : mFilteredContacts) {
-            if (contact.isChecked() != isChecked) {
-                contact.setChecked(isChecked, true);
-            }
-        }
-
-        ContactSelectionChanged.post();
-
-        mAdapter.notifyDataSetChanged();
-    }
+//    @Override
+//    protected void checkAll() {
+//        if (mFilteredContacts == null) return;
+//
+//        // determine if all contacts are checked
+//        boolean allChecked = true;
+//        for (Contact contact : mFilteredContacts) {
+//            if (! contact.isChecked()) {
+//                allChecked = false;
+//                break;
+//            }
+//        }
+//
+//        // if all are checked then un-check the contacts, otherwise check them all
+//        boolean isChecked = ! allChecked;
+//        for (Contact contact : mFilteredContacts) {
+//            if (contact.isChecked() != isChecked) {
+//                contact.setChecked(isChecked, true);
+//            }
+//        }
+//
+//        ContactSelectionChanged.post();
+//
+//        mAdapter.notifyDataSetChanged();
+//    }
 
     @Override
     protected void performFiltering(String[] queryStrings) {

@@ -132,15 +132,15 @@ public abstract class BaseFragment extends Fragment implements SearchView.OnQuer
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_check_all) {
-            checkAll();
-            return true;
-        }
+//        if (item.getItemId() == R.id.action_check_all) {
+//            checkAll();
+//            return true;
+//        }
 
         return false;
     }
 
-    abstract protected void checkAll();
+//    abstract protected void checkAll();
 
     @Override
     final public boolean onQueryTextSubmit(String query) {

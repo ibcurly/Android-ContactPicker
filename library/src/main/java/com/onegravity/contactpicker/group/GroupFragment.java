@@ -70,29 +70,29 @@ public class GroupFragment extends BaseFragment {
         updateEmptyViewVisibility(mGroups);
     }
 
-    @Override
-    protected void checkAll() {
-        if (mFilteredGroups == null) return;
-
-        // determine if all groups are checked
-        boolean allChecked = true;
-        for (Group group : mFilteredGroups) {
-            if (! group.isChecked()) {
-                allChecked = false;
-                break;
-            }
-        }
-
-        // if all are checked then un-check the groups, otherwise check them all
-        boolean isChecked = ! allChecked;
-        for (Group group : mFilteredGroups) {
-            if (group.isChecked() != isChecked) {
-                group.setChecked(isChecked, false);
-            }
-        }
-
-        mAdapter.notifyDataSetChanged();
-    }
+//    @Override
+//    protected void checkAll() {
+//        if (mFilteredGroups == null) return;
+//
+//        // determine if all groups are checked
+//        boolean allChecked = true;
+//        for (Group group : mFilteredGroups) {
+//            if (! group.isChecked()) {
+//                allChecked = false;
+//                break;
+//            }
+//        }
+//
+//        // if all are checked then un-check the groups, otherwise check them all
+//        boolean isChecked = ! allChecked;
+//        for (Group group : mFilteredGroups) {
+//            if (group.isChecked() != isChecked) {
+//                group.setChecked(isChecked, false);
+//            }
+//        }
+//
+//        mAdapter.notifyDataSetChanged();
+//    }
 
     @Override
     protected void performFiltering(String[] queryStrings) {

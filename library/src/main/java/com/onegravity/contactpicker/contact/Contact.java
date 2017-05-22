@@ -20,6 +20,7 @@ import android.net.Uri;
 
 import com.onegravity.contactpicker.ContactElement;
 
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -33,11 +34,11 @@ public interface Contact extends ContactElement {
 
     String getLastName();
 
-    String getEmail(int type);
+//    String getEmail(int type);
 
-    String getPhone(int type);
+    HashSet<String> getPhones();
 
-    String getAddress(int type);
+//    String getAddress(int type);
 
     /**
      * The contact letter is used in the ContactBadge (if no contact picture can be found).

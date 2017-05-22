@@ -29,4 +29,20 @@
     <color name="contact_badge_line_dark">#ff000000</color>
     <color name="contact_badge_triangle_dark">#cc888888</color>
     <color name="contact_badge_overlay_dark">#aa888888</color>
+
+    <color name="colorPrimary_dark">#3F51B5</color>
+    <color name="colorPrimaryDark_dark">#303F9F</color>
+    <color name="colorAccent_dark">#FAFAFA</color>
+    <color name="background_dark">#263238</color>
+    <color name="tab_unselected">#B3FFFFFF</color>
+
+    <color name="colorPrimaryDisabled">#90303F9F</color>
+
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF9800</color>
+    <color name="background">#FFFAFAFA</color>
+    <color name="grey100">#FFF5F5F5</color>
+    <color name="colorWhite">#FFFFFFFF</color>
+    <color name="black54">#8A000000</color>
 </resources>

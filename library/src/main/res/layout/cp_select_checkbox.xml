@@ -16,6 +16,7 @@
         android:layout_gravity="center"
         android:layout_margin="4dip"
         android:focusable="false"
-        android:gravity="center" />
+        android:gravity="center"
+        android:theme="@style/checkBoxStyle"/>
 
 </FrameLayout>

@@ -186,6 +186,8 @@ public class ContactPickerActivity extends AppCompatActivity implements
      */
     public static final String RESULT_GROUP_DATA = "RESULT_GROUP_DATA";
 
+    public static final String RESULT_PHONE_DATA = "RESULT_PHONE_DATA";
+
     private int mThemeResId;
 
     private ContactPictureType mBadgeType = ContactPictureType.ROUND;
@@ -245,19 +247,23 @@ public class ContactPickerActivity extends AppCompatActivity implements
             return;
         }
 
+        mDefaultTitle = "Select Contacts";
+
+        mThemeResId =  R.style.Theme_Light;
+
         Intent intent = getIntent();
         if (savedInstanceState == null) {
-            /*
-             * Retrieve default title used if no contacts are selected.
-             */
-            try {
-                PackageManager pkMgr = getPackageManager();
-                ActivityInfo activityInfo = pkMgr.getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
-                mDefaultTitle = activityInfo.loadLabel(pkMgr).toString();
-            }
-            catch (PackageManager.NameNotFoundException ignore) {
-                mDefaultTitle = getTitle().toString();
-            }
+//            /*
+//             * Retrieve default title used if no contacts are selected.
+//             */
+//            try {
+//                PackageManager pkMgr = getPackageManager();
+//                ActivityInfo activityInfo = pkMgr.getActivityInfo(getComponentName(), PackageManager.GET_META_DATA);
+//                mDefaultTitle = activityInfo.loadLabel(pkMgr).toString();
+//            }
+//            catch (PackageManager.NameNotFoundException ignore) {
+//                mDefaultTitle = getTitle().toString();
+//            }
 
             if(intent.hasExtra(EXTRA_PRESELECTED_CONTACTS)) {
                 Collection<Long> preselectedContacts = (Collection<Long>) intent.getSerializableExtra( EXTRA_PRESELECTED_CONTACTS );
@@ -269,12 +275,12 @@ public class ContactPickerActivity extends AppCompatActivity implements
                 mSelectedGroupIds.addAll(preselectedGroups);
             }
 
-            mThemeResId = intent.getIntExtra(EXTRA_THEME, R.style.ContactPicker_Theme_Light);
+//            mThemeResId = intent.getIntExtra(EXTRA_THEME, R.style.ContactPicker_Theme_Light);
         }
         else {
-            mDefaultTitle = savedInstanceState.getString("mDefaultTitle");
-
-            mThemeResId = savedInstanceState.getInt("mThemeResId");
+//            mDefaultTitle = savedInstanceState.getString("mDefaultTitle");
+//
+//            mThemeResId = savedInstanceState.getInt("mThemeResId");
 
             // Retrieve selected contact and group ids.
             try {
@@ -363,6 +369,8 @@ public class ContactPickerActivity extends AppCompatActivity implements
             @Override
             public void onTabReselected(TabLayout.Tab tab) {}
         });
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
@@ -390,7 +398,7 @@ public class ContactPickerActivity extends AppCompatActivity implements
 
         outState.putInt("mThemeResId", mThemeResId);
 
-        mSelectedContactIds.clear();;
+        mSelectedContactIds.clear();
         for (Contact contact : mContacts) {
             if (contact.isChecked()) {
                 mSelectedContactIds.add( contact.getId() );
@@ -398,7 +406,7 @@ public class ContactPickerActivity extends AppCompatActivity implements
         }
         outState.putSerializable(CONTACT_IDS, mSelectedContactIds);
 
-        mSelectedGroupIds.clear();;
+        mSelectedGroupIds.clear();
         for (Group group : mGroups) {
             if (group.isChecked()) {
                 mSelectedGroupIds.add( group.getId() );
@@ -422,10 +430,10 @@ public class ContactPickerActivity extends AppCompatActivity implements
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.cp_contact_picker, menu);
-        if(!mShowCheckAll){
-            MenuItem checkAllBtn = menu.findItem(R.id.action_check_all);
-            checkAllBtn.setVisible(mShowCheckAll);
-        }
+//        if(!mShowCheckAll){
+//            MenuItem checkAllBtn = menu.findItem(R.id.action_check_all);
+//            checkAllBtn.setVisible(mShowCheckAll);
+//        }
         return true;
     }
 
@@ -446,29 +454,39 @@ public class ContactPickerActivity extends AppCompatActivity implements
     }
 
     private void onDone() {
+
+        HashSet<String> phoneHash = new HashSet<>();
+
         // return only checked contacts
-        List<Contact> contacts = new ArrayList<>();
+        HashSet<Long> contactHash = new HashSet<>();
         if (mContacts != null) {
             for (Contact contact : mContacts) {
                 if (contact.isChecked()) {
-                    contacts.add(contact);
+                    phoneHash.addAll(contact.getPhones());
+                    contactHash.add(contact.getId());
                 }
             }
         }
 
         // return only checked groups
-        List<Group> groups = new ArrayList<>();
+        HashSet<Long> groupHash = new HashSet<>();
         if (mGroups != null) {
             for (Group group : mGroups) {
                 if (group.isChecked()) {
-                    groups.add(group);
+                    groupHash.add(group.getId());
                 }
             }
         }
 
+        ArrayList<Long> contactList = new ArrayList<>(contactHash);
+        ArrayList<Long> groupList = new ArrayList<>(groupHash);
+        ArrayList<String> phoneList = new ArrayList<>(phoneHash);
+
         Intent data = new Intent();
-        data.putExtra(RESULT_CONTACT_DATA, (Serializable) contacts);
-        data.putExtra(RESULT_GROUP_DATA, (Serializable) groups);
+        data.putExtra(RESULT_CONTACT_DATA, contactList);
+        data.putExtra(RESULT_GROUP_DATA, groupList);
+        data.putExtra(RESULT_PHONE_DATA, phoneList);
+
         setResult(Activity.RESULT_OK, data);
         finish();
     }
@@ -661,27 +679,27 @@ public class ContactPickerActivity extends AppCompatActivity implements
 
     private void readContactDetails(Cursor cursor, ContactImpl contact) {
         String mime = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.MIMETYPE));
-        if (mime.equals(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
-            String email = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
-            int type = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
-            if (email != null) {
-                contact.setEmail(type, email);
-            }
-        }
-        else if (mime.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
+//        if (mime.equals(ContactsContract.CommonDataKinds.Email.CONTENT_ITEM_TYPE)) {
+//            String email = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.ADDRESS));
+//            int type = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Email.TYPE));
+//            if (email != null) {
+//                contact.setEmail(type, email);
+//            }
+//        }
+        if (mime.equals(ContactsContract.CommonDataKinds.Phone.CONTENT_ITEM_TYPE)) {
             String phone = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
-            int type = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
+//            int type = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.TYPE));
             if (phone != null) {
-                contact.setPhone(type, phone);
+                contact.addPhone(phone);
             }
         }
-        else if (mime.equals(ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE)) {
-            String address = cursor.getString(cursor.getColumnIndex(FORMATTED_ADDRESS));
-            int type = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.TYPE));
-            if (address != null) {
-                contact.setAddress(type, address.replaceAll("\\n", ", "));
-            }
-        }
+//        else if (mime.equals(ContactsContract.CommonDataKinds.StructuredPostal.CONTENT_ITEM_TYPE)) {
+//            String address = cursor.getString(cursor.getColumnIndex(FORMATTED_ADDRESS));
+//            int type = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredPostal.TYPE));
+//            if (address != null) {
+//                contact.setAddress(type, address.replaceAll("\\n", ", "));
+//            }
+//        }
         else if (mime.equals(ContactsContract.CommonDataKinds.StructuredName.CONTENT_ITEM_TYPE)) {
             String firstName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.GIVEN_NAME));
             String lastName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.StructuredName.FAMILY_NAME));

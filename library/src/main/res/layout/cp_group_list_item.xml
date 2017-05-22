@@ -4,9 +4,8 @@
     android:minHeight="?android:attr/listPreferredItemHeight"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal">
-
-    <include layout="@layout/cp_select_checkbox" />
+    android:orientation="horizontal"
+    android:background="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -18,7 +17,8 @@
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginLeft="16dp"
             android:clickable="false"
             android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -26,10 +26,20 @@
             android:id="@+id/description"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="3dp"
+            android:layout_marginLeft="16dp"
             android:clickable="false"
             android:textAppearance="?android:attr/textAppearanceSmall" />
 
     </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="right|center_vertical"
+        android:layout_marginRight="32dp">
+
+        <include layout="@layout/cp_select_checkbox" />
+
+    </RelativeLayout>
 
 </LinearLayout>
