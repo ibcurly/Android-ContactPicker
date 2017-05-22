@@ -64,4 +64,5 @@ public interface Contact extends ContactElement {
     Uri getPhotoUri();
 
     Set<Long> getGroupIds();
+
 }
